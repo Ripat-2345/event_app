@@ -26,7 +26,18 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="Upcoming Events"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+        <ProgressBar
+            android:id="@+id/progressBarUpcomingHome"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_upcoming"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listUpcomingEvent"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -52,6 +63,18 @@
         app:layout_constraintTop_toBottomOf="@+id/listUpcomingEvent"
         android:text="Finished Events"/>
 
+        <ProgressBar
+            android:id="@+id/progressBarFinishedHome"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_finish"
+            tools:visibility="visible" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listFinishedEvent"
         android:layout_width="match_parent"
@@ -61,18 +84,5 @@
         app:layout_constraintTop_toBottomOf="@+id/text_finish"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

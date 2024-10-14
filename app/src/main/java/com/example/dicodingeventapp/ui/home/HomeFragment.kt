@@ -48,8 +48,8 @@ class HomeFragment : Fragment() {
             setUpcomingEventData(eventData)
         }
 
-        homeViewModel.isLoading.observe(viewLifecycleOwner){
-            showLoading(it)
+        homeViewModel.isLoadingUpcoming.observe(viewLifecycleOwner){
+            showLoadingUpcoming(it)
         }
 
         val upcomingLayoutManager = LinearLayoutManager(activity)
@@ -61,8 +61,8 @@ class HomeFragment : Fragment() {
             setFinishedEventData(eventData)
         }
 
-        homeViewModel.isLoading.observe(viewLifecycleOwner){
-            showLoading(it)
+        homeViewModel.isLoadingFinished.observe(viewLifecycleOwner){
+            showLoadingFinished(it)
         }
 
         val finishedLayoutManager = GridLayoutManager(activity,2)
@@ -86,8 +86,12 @@ class HomeFragment : Fragment() {
         _binding?.listFinishedEvent?.adapter = adapter
     }
 
-    private fun showLoading(isLoading: Boolean){
-        _binding?.progressBar?.visibility = if (isLoading) View.VISIBLE else View.GONE
+    private fun showLoadingUpcoming(isLoading: Boolean){
+        _binding?.progressBarUpcomingHome?.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showLoadingFinished(isLoading: Boolean){
+        _binding?.progressBarFinishedHome?.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

@@ -27,8 +27,11 @@ class HomeViewModel : ViewModel() {
     private val _listFinishedEvent = MutableLiveData<List<ListEventsItem>>()
     val listFinishedEvent: LiveData<List<ListEventsItem>> = _listFinishedEvent
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _isLoadingUpcoming = MutableLiveData<Boolean>()
+    val isLoadingUpcoming: LiveData<Boolean> = _isLoadingUpcoming
+
+    private val _isLoadingFinished = MutableLiveData<Boolean>()
+    val isLoadingFinished: LiveData<Boolean> = _isLoadingFinished
 
     private val _toastText = MutableLiveData<String>()
     val toastText: LiveData<String> = _toastText
@@ -43,13 +46,13 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun getUpComingEvent(){
-        _isLoading.value = true
+        _isLoadingUpcoming.value = true
 
         val client = ApiConfig.getApiService().getListEvents(active = "1", limit = "5")
 
         client.enqueue(object: Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
-                _isLoading.value = false
+                _isLoadingUpcoming.value = false
                 val responseBody = response.body()
                 if(response.isSuccessful){
                     _upcomingEvent.value = responseBody!!
@@ -60,7 +63,7 @@ class HomeViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                _isLoading.value = false
+                _isLoadingUpcoming.value = false
                 _toastText.value = "Gagal Memuat Data!"
                 Log.e(UpcomingViewModel.TAG, "onFailure: ${t.message}")
             }
@@ -68,13 +71,13 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun getFinishedEvent(){
-        _isLoading.value = true
+        _isLoadingFinished.value = true
 
         val client = ApiConfig.getApiService().getListEvents(active = "0", limit = "5")
 
         client.enqueue(object: Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
-                _isLoading.value = false
+                _isLoadingFinished.value = false
                 val responseBody = response.body()
                 if(response.isSuccessful){
                     _finishedEvent.value = responseBody!!
@@ -85,7 +88,7 @@ class HomeViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                _isLoading.value = false
+                _isLoadingFinished.value = false
                 _toastText.value = "Gagal Memuat Data!"
                 Log.e(FinishedViewModel.TAG, "onFailure: ${t.message}")
             }

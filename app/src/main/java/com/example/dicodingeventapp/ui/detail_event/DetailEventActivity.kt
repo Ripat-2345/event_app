@@ -39,18 +39,17 @@ class DetailEventActivity : AppCompatActivity() {
 
         val idEvent = intent.getStringExtra(IDEVENT)
         println("DEBUG ID EVENT: $idEvent")
-        detailEventViewModel.getDetailEvent(idEvent!!).also {
-            detailEventViewModel.detailEvent.observe(this){ dataEvent ->
-                setDetailEventData(dataEvent.event)
-            }
+        detailEventViewModel.getDetailEvent(idEvent!!)
+        detailEventViewModel.detailEvent.observe(this){ dataEvent ->
+            setDetailEventData(dataEvent.event)
+        }
 
-            detailEventViewModel.isLoading.observe(this){
-                showLoading(it)
-            }
+        detailEventViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
 
-            detailEventViewModel.toastText.observe(this){ toastText ->
-                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
-            }
+        detailEventViewModel.toastText.observe(this){ toastText ->
+            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -66,7 +65,7 @@ class DetailEventActivity : AppCompatActivity() {
         detailEventActivityDetailEventBinding.ownerNameDetailEvent.text = dataEvent.ownerName
         detailEventActivityDetailEventBinding.beginTimeDetailEvent.text = "Waktu Mulai: " + dataEvent.beginTime
         detailEventActivityDetailEventBinding.quotaDetailEvent.text = "Kuota: " + dataEvent.quota.toString()
-        detailEventActivityDetailEventBinding.registrantDetailEvent.text = "Terdaftar: " + dataEvent.registrants.toString()
+        detailEventActivityDetailEventBinding.registrantDetailEvent.text = "Sisa Kuota: " + (dataEvent.quota - dataEvent.registrants).toString()
         detailEventActivityDetailEventBinding.descriptionDetailEvent.text = HtmlCompat.fromHtml(
             dataEvent.description,
             HtmlCompat.FROM_HTML_MODE_LEGACY
@@ -81,6 +80,7 @@ class DetailEventActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean){
+        detailEventActivityDetailEventBinding.registerDetailEvent.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         detailEventActivityDetailEventBinding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

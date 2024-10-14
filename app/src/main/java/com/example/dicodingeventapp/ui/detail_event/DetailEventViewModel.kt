@@ -33,7 +33,7 @@ class DetailEventViewModel: ViewModel() {
 //    }
 
     fun getDetailEvent(idEvent: String){
-        _isLoading.value = false
+        _isLoading.value = true
 
         val client = ApiConfig.getApiService().getDetailEvent(idEvent)
 
