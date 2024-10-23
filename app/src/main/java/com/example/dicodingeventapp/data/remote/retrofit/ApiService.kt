@@ -1,7 +1,7 @@
-package com.example.dicodingeventapp.data.retrofit
+package com.example.dicodingeventapp.data.remote.retrofit
 
-import com.example.dicodingeventapp.data.response.DetailEventResponse
-import com.example.dicodingeventapp.data.response.EventResponse
+import com.example.dicodingeventapp.data.remote.response.DetailEventResponse
+import com.example.dicodingeventapp.data.remote.response.EventResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,10 +14,10 @@ interface ApiService {
      -1 : Menampilkan semua events.
     * */
     @GET("events")
-    fun getListEvents(
+    suspend fun getListEvents(
         @Query("active") active: String = "-1",
         @Query("limit") limit: String = "40"
-    ): Call<EventResponse>
+    ): EventResponse
 
     // Get detail event
     @GET("events/{id}")

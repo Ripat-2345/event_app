@@ -1,18 +1,18 @@
 package com.example.dicodingeventapp.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.dicodingeventapp.data.response.ListEventsItem
+import com.example.dicodingeventapp.data.local.entity.UpcomingEventsEntity
 import com.example.dicodingeventapp.databinding.ItemEventBinding
 import com.example.dicodingeventapp.ui.detail_event.DetailEventActivity
 
-class EventAdapter: ListAdapter<ListEventsItem, EventAdapter.EventHolder>(DIFF_CALLBACK) {
+class UpcomingEventAdapter: ListAdapter<UpcomingEventsEntity, UpcomingEventAdapter.EventHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
         val binding = ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return EventHolder(binding)
@@ -24,7 +24,7 @@ class EventAdapter: ListAdapter<ListEventsItem, EventAdapter.EventHolder>(DIFF_C
     }
 
     class EventHolder(private val binding: ItemEventBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(event: ListEventsItem){
+        fun bind(event: UpcomingEventsEntity){
             // binding data to UI and data from reponse api
              Glide.with(binding.root.context)
                 .load(event.imageLogo)
@@ -41,20 +41,16 @@ class EventAdapter: ListAdapter<ListEventsItem, EventAdapter.EventHolder>(DIFF_C
     }
 
     companion object{
-        val DIFF_CALLBACK = object: DiffUtil.ItemCallback<ListEventsItem>(){
-            override fun areItemsTheSame(
-                oldItem: ListEventsItem,
-                newItem: ListEventsItem
-            ): Boolean {
-                return oldItem == newItem
-            }
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<UpcomingEventsEntity> =
+            object : DiffUtil.ItemCallback<UpcomingEventsEntity>() {
+                override fun areItemsTheSame(oldItem: UpcomingEventsEntity, newItem: UpcomingEventsEntity): Boolean {
+                    return oldItem.name == newItem.name
+                }
 
-            override fun areContentsTheSame(
-                oldItem: ListEventsItem,
-                newItem: ListEventsItem
-            ): Boolean {
-                return oldItem == newItem
+                @SuppressLint("DiffUtilEquals")
+                override fun areContentsTheSame(oldItem: UpcomingEventsEntity, newItem: UpcomingEventsEntity): Boolean {
+                    return oldItem == newItem
+                }
             }
-        }
     }
 }

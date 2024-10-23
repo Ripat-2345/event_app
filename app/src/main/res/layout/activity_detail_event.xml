@@ -17,10 +17,27 @@
             android:id="@+id/img_detail_event"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:contentDescription="Image of Event"
             android:scaleType="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_favorite"
+            style="?attr/materialIconButtonFilledStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="140dp"
+            android:contentDescription="button favorite event"
+            android:minWidth="0dp"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/baseline_favorite_border_24"
+            app:iconPadding="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/name_detail_event"

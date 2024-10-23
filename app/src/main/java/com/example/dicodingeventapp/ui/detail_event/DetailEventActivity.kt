@@ -11,13 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.dicodingeventapp.R
-import com.example.dicodingeventapp.adapter.EventAdapter
-import com.example.dicodingeventapp.data.response.DetailEventItem
-import com.example.dicodingeventapp.data.response.DetailEventResponse
-import com.example.dicodingeventapp.data.response.ListEventsItem
+import com.example.dicodingeventapp.data.remote.response.DetailEventItem
 import com.example.dicodingeventapp.databinding.ActivityDetailEventBinding
 
 class DetailEventActivity : AppCompatActivity() {
@@ -34,7 +30,6 @@ class DetailEventActivity : AppCompatActivity() {
         detailEventActivityDetailEventBinding = ActivityDetailEventBinding.inflate(layoutInflater)
         setContentView(detailEventActivityDetailEventBinding.root)
 
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val idEvent = intent.getStringExtra(IDEVENT)
@@ -50,6 +45,11 @@ class DetailEventActivity : AppCompatActivity() {
 
         detailEventViewModel.toastText.observe(this){ toastText ->
             Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+        }
+
+        detailEventActivityDetailEventBinding.btnFavorite.setOnClickListener{
+            // tap button favorite save to local storage room
+            println("Hello berhasil print!")
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
