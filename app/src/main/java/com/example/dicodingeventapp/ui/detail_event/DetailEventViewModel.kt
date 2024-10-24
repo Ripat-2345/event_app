@@ -28,10 +28,6 @@ class DetailEventViewModel: ViewModel() {
         private const val TAG = "EventModel"
     }
 
-//    init {
-//        getDetailEvent()
-//    }
-
     fun getDetailEvent(idEvent: String){
         _isLoading.value = true
 

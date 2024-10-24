@@ -2,11 +2,12 @@ package com.example.dicodingeventapp.data
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import com.example.dicodingeventapp.data.local.entity.FavoriteEventsEntity
 import com.example.dicodingeventapp.data.local.entity.FinishedEventsEntity
 import com.example.dicodingeventapp.data.local.entity.UpcomingEventsEntity
+import com.example.dicodingeventapp.data.local.room.FavoriteEventsDao
 import com.example.dicodingeventapp.data.local.room.FinishedEventsDao
 import com.example.dicodingeventapp.data.local.room.UpcomingEventsDao
 import com.example.dicodingeventapp.data.remote.response.EventResponse
@@ -15,10 +16,9 @@ import com.example.dicodingeventapp.data.remote.retrofit.ApiService
 class EventsRepository private constructor(
     private val apiService: ApiService,
     private val upcomingEventsDao: UpcomingEventsDao,
-    private val finishedEventsDao: FinishedEventsDao
+    private val finishedEventsDao: FinishedEventsDao,
+    private val favoriteEventsDao: FavoriteEventsDao
 ) {
-    private val result = MediatorLiveData<Result<List<UpcomingEventsEntity>>>()
-
     // get upcoming events
     fun getUpcomingEvents(): LiveData<Result<List<UpcomingEventsEntity>>> = liveData{
         emit(Result.Loading)
@@ -91,16 +91,45 @@ class EventsRepository private constructor(
         emitSource(localData)
     }
 
+    suspend fun insertFavoriteEvent(favoriteEventState: FavoriteEventsEntity){
+        favoriteEventsDao.insertFavoriteEvents(favoriteEventState)
+    }
+
+    suspend fun deleteFavoriteEvent(id: Int){
+        favoriteEventsDao.deleteFavorite(id)
+    }
+
+    suspend fun setUpcomingFavorite(id: Int, isFavoriteState: Int) {
+        upcomingEventsDao.updateIsFavorite(id, isFavoriteState)
+    }
+
+    suspend fun setFinishedFavorite(id: Int, isFavoriteState: Int) {
+        finishedEventsDao.updateIsFavorite(id, isFavoriteState)
+    }
+
+    fun checkIsFavoriteUpcoming(id: Int): LiveData<UpcomingEventsEntity>{
+        return upcomingEventsDao.checkIsFavorite(id)
+    }
+
+    fun checkIsFavoriteFinished(id: Int): LiveData<FinishedEventsEntity>{
+        return finishedEventsDao.checkIsFavorite(id)
+    }
+
+    fun getFavoriteEvents(): LiveData<List<FavoriteEventsEntity>>{
+        return favoriteEventsDao.getFavoriteEvents()
+    }
+
     companion object{
         @Volatile
         private var instance: EventsRepository? = null
         fun getInstance(
             apiService: ApiService,
             upcomingEventsDao: UpcomingEventsDao,
-            finishedEventsDao: FinishedEventsDao
+            finishedEventsDao: FinishedEventsDao,
+            favoriteEventsDao: FavoriteEventsDao
         ): EventsRepository =
             instance ?: synchronized(this){
-                instance ?: EventsRepository(apiService, upcomingEventsDao, finishedEventsDao)
+                instance ?: EventsRepository(apiService, upcomingEventsDao, finishedEventsDao, favoriteEventsDao)
             }.also { instance = it }
     }
 

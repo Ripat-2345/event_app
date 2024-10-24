@@ -1,20 +1,29 @@
 package com.example.dicodingeventapp.ui.upcoming
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.dicodingeventapp.data.EventsRepository
-import com.example.dicodingeventapp.data.remote.response.EventResponse
-import com.example.dicodingeventapp.data.remote.response.ListEventsItem
-import com.example.dicodingeventapp.data.remote.retrofit.ApiConfig
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.dicodingeventapp.data.local.entity.UpcomingEventsEntity
+import kotlinx.coroutines.launch
 
 
 class UpcomingViewModel(private val eventsRepository: EventsRepository) : ViewModel() {
     fun getUpcomingEvents() = eventsRepository.getUpcomingEvents()
+
+    fun checkIsFavorite(eventsId: Int): LiveData<UpcomingEventsEntity> {
+        return eventsRepository.checkIsFavoriteUpcoming(eventsId)
+    }
+
+    fun saveEvent(eventsId: Int) {
+        viewModelScope.launch {
+            eventsRepository.setUpcomingFavorite(eventsId, 1)
+        }
+    }
+
+    fun deleteEvent(eventsId: Int) {
+        viewModelScope.launch {
+            eventsRepository.setUpcomingFavorite(eventsId, 0)
+        }
+    }
 }

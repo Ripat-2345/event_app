@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.dicodingeventapp.data.local.entity.FinishedEventsEntity
+import com.example.dicodingeventapp.data.local.entity.UpcomingEventsEntity
 
 @Dao
 interface FinishedEventsDao {
@@ -16,6 +17,9 @@ interface FinishedEventsDao {
     @Update
     suspend fun update(event: FinishedEventsEntity)
 
+    @Query("UPDATE finished_events SET favorite = :favoriteState WHERE id = :id")
+    suspend fun updateIsFavorite(id: Int, favoriteState: Int)
+
     @Query("DELETE FROM finished_events WHERE favorite = 0")
     suspend fun deleteAll()
 
@@ -24,4 +28,7 @@ interface FinishedEventsDao {
 
     @Query("SELECT EXISTS(SELECT * FROM finished_events WHERE id = :id AND favorite = 1)")
     suspend fun isFavorite(id: Int): Boolean
+
+    @Query("SELECT * FROM finished_events WHERE id = :id")
+    fun checkIsFavorite(id: Int): LiveData<FinishedEventsEntity>
 }

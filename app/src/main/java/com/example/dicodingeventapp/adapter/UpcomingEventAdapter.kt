@@ -35,6 +35,7 @@ class UpcomingEventAdapter: ListAdapter<UpcomingEventsEntity, UpcomingEventAdapt
                 val context = binding.root.context
                 val intent = Intent(context, DetailEventActivity::class.java)
                 intent.putExtra(DetailEventActivity.IDEVENT, event.id.toString())
+                intent.putExtra(DetailEventActivity.STATUSEVENT, "true")
                 context.startActivity(intent)
             }
         }
