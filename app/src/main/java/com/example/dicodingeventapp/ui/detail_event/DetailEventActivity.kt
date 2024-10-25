@@ -21,12 +21,15 @@ import com.example.dicodingeventapp.databinding.ActivityDetailEventBinding
 import com.example.dicodingeventapp.ui.ViewModelFactory
 import com.example.dicodingeventapp.ui.favorite.FavoriteViewModel
 import com.example.dicodingeventapp.ui.finished.FinishedViewModel
+import com.example.dicodingeventapp.ui.setting.SettingPreferences
+import com.example.dicodingeventapp.ui.setting.dataStore
 import com.example.dicodingeventapp.ui.upcoming.UpcomingViewModel
 
 class DetailEventActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var detailEventActivityDetailEventBinding: ActivityDetailEventBinding
     private val detailEventViewModel: DetailEventViewModel by viewModels<DetailEventViewModel>()
-    private val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
+    val pref = SettingPreferences.getInstance(this.dataStore)
+    private val factory: ViewModelFactory = ViewModelFactory.getInstance(this, pref)
     private val upcomingViewModel: UpcomingViewModel by viewModels<UpcomingViewModel> { factory }
     private val finishedViewModel: FinishedViewModel by viewModels<FinishedViewModel> { factory }
     private val favoriteViewModel: FavoriteViewModel by viewModels<FavoriteViewModel> { factory }

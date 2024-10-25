@@ -12,6 +12,8 @@ import com.example.dicodingeventapp.adapter.FinishedEventAdapter
 import com.example.dicodingeventapp.data.Result
 import com.example.dicodingeventapp.databinding.FragmentFinishedBinding
 import com.example.dicodingeventapp.ui.ViewModelFactory
+import com.example.dicodingeventapp.ui.setting.SettingPreferences
+import com.example.dicodingeventapp.ui.setting.dataStore
 
 class FinishedFragment : Fragment() {
     private var fragmentFinishedBinding: FragmentFinishedBinding? = null
@@ -27,7 +29,8 @@ class FinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
+        val pref = SettingPreferences.getInstance(requireContext().dataStore)
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity(), pref)
         val viewModel: FinishedViewModel by viewModels<FinishedViewModel> {
             factory
         }

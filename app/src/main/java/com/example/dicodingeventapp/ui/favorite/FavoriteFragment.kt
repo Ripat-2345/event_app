@@ -13,6 +13,8 @@ import com.example.dicodingeventapp.adapter.UpcomingEventAdapter
 import com.example.dicodingeventapp.databinding.FragmentFavoriteBinding
 import com.example.dicodingeventapp.databinding.FragmentUpcomingBinding
 import com.example.dicodingeventapp.ui.ViewModelFactory
+import com.example.dicodingeventapp.ui.setting.SettingPreferences
+import com.example.dicodingeventapp.ui.setting.dataStore
 import com.example.dicodingeventapp.ui.upcoming.UpcomingViewModel
 
 class FavoriteFragment : Fragment() {
@@ -29,8 +31,8 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
+        val pref = SettingPreferences.getInstance(requireContext().dataStore)
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity(), pref)
         val upcomingViewModel: FavoriteViewModel by viewModels<FavoriteViewModel> { factory }
         val favoriteEventsAdapter = FavoriteEventAdapter()
 
